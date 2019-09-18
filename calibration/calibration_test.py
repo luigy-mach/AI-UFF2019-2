@@ -22,8 +22,8 @@ for fname in images:
     #cv2.imshow('img2',img)
     #cv2.waitKey(0)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    cv2.imshow('img2',gray)
-    cv2.waitKey(0)
+    #cv2.imshow('img2',gray)
+    #cv2.waitKey(0)
     # Find the chess board corners
     ret, corners = cv2.findChessboardCorners(gray, (7,5),None)
 

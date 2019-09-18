@@ -28,7 +28,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-img = cv2.imread('/home/luigy/AI-UFF2019-2/1000.jpg')
+img = cv2.imread('test_azul1.jpg')
 #img = cv2.imread('/home/luigy/AI-UFF2019-2/calibration/1/normal1.jpeg')
 #img = cv2.imread('home.jpg')
 color = ('b','g','r')

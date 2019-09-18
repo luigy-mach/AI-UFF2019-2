@@ -54,6 +54,8 @@ for path in glob.glob('1/*.jpeg'):
 # Calibrate the camera and save the results
 ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objectPointsArray, imgPointsArray, gray.shape[::-1], None, None)
 np.savez('1/calib.npz', mtx=mtx, dist=dist, rvecs=rvecs, tvecs=tvecs)
+print(ret, mtx, dist, rvecs, tvecs)
+
 
 # Print the camera calibration error
 error = 0
