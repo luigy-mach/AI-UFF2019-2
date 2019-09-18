@@ -1,9 +1,4 @@
-"""
-Filename: init.py
-Usage: This script will measure different objects in the frame using a reference object of known dimension. 
-The object with known dimension must be the leftmost object.
-Author: Shashank Sharma
-"""
+
 from scipy.spatial.distance import euclidean
 from imutils import perspective
 from imutils import contours
@@ -15,20 +10,24 @@ import cv2
 def show_images(images):
 	print(images)
 	for i, img in enumerate(images):
-		cv2.imshow("image_" + str(i), img)
+		cv2.namedWindow('Image'+ str(i), cv2.WINDOW_NORMAL)
+		cv2.resizeWindow('Image'+ str(i), 640, 480)
+		cv2.imshow("Image" + str(i), img)
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()
 
-#img_path = "images/example_02.jpg"
-#img_path = "fotos2/1.jpeg"
-#img_path = "fotos2/3.jpeg"
-img_path = "fotos2/4.jpeg"
+
+#img_path = "fotos2/4.jpeg"
+img_path = "botao_colado/1.jpg"
+
 
 # Read image and preprocess
 image = cv2.imread(img_path)
 
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+show_images(image)
 blur = cv2.GaussianBlur(gray, (9, 9), 0)
+show_images(blur)
 
 edged = cv2.Canny(blur, 50, 100)
 edged = cv2.dilate(edged, None, iterations=1)

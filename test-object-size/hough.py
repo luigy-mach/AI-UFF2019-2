@@ -9,12 +9,9 @@ def main(argv):
     cv2.namedWindow('Image', cv2.WINDOW_NORMAL)
     cv2.resizeWindow('Image', 640, 480)
 
-    #default_file =  "test1.png"
-    #default_file =  "/home/luigy/analise_imagens/data/data2/1000.jpg"
-    #default_file =  "/home/luigy/analise_imagens/data/data2/1500.jpg"
-    #default_file =  "/home/luigy/analise_imagens/data/data2/2500.jpg"
-    #default_file =  "circle1.jpeg"
-    default_file = "fotos2/4.jpeg"
+    default_file = "botao_colado/1.jpg"
+    #default_file = "fotos2/test_azul1.jpg"
+    #default_file = "fotos2/test_azul2.jpg"
 
     #filename = argv[0] if len(argv) > 0 else default_file
     # Loads an image
