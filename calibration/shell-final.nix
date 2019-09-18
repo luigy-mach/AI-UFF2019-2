@@ -2,6 +2,7 @@
 
 let  
   python-re3 = pkgs.python37.withPackages (ps: with ps; [
+    matplotlib
     scipy
     imutils
     numpy
