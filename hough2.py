@@ -12,7 +12,7 @@ def main(argv):
     #default_file =  "test1.png"
     #default_file =  "/home/luigy/analise_imagens/data/data2/1000.jpg"
     #default_file =  "/home/luigy/analise_imagens/data/data2/1500.jpg"
-    default_file =  "/home/luigy/analise_imagens/data/data2/2500.jpg"
+    default_file =  "1000.jpg"
     #default_file =  "circle1.jpeg"
     #filename = argv[0] if len(argv) > 0 else default_file
     # Loads an image
