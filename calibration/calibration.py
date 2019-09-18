@@ -13,7 +13,7 @@ objp[:,:2] = np.mgrid[0:7,0:6].T.reshape(-1,2)
 objpoints = [] # 3d point in real world space
 imgpoints = [] # 2d points in image plane.
 
-images = glob.glob('/home/luigy/analise_imagens/calibration/1/*.jpeg')
+images = glob.glob('1/*.jpeg')
 print(images)
 
 for fname in images:

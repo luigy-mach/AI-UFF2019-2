@@ -7,6 +7,9 @@ import numpy as np
 import cv2
 import glob
 
+cv2.namedWindow('Image',cv2.WINDOW_NORMAL)
+cv2.resizeWindow('Image', 600,400)
+
 # Define the chess board rows and columns
 rows = 7
 cols = 5
@@ -23,7 +26,7 @@ objectPointsArray = []
 imgPointsArray = []
 
 # Loop over the image files
-for path in glob.glob('/home/luigy/analise_imagens/calibration/1/*.jpeg'):
+for path in glob.glob('1/*.jpeg'):
     # Load the image and convert it to gray scale
     img = cv2.imread(path)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -44,13 +47,13 @@ for path in glob.glob('/home/luigy/analise_imagens/calibration/1/*.jpeg'):
         cv2.drawChessboardCorners(img, (rows, cols), corners, ret)
     
     # Display the image
-    cv2.imshow('chess board', img)
+    cv2.imshow('Image', img)
     #cv2.waitKey(500)
     cv2.waitKey(0)
 
 # Calibrate the camera and save the results
 ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objectPointsArray, imgPointsArray, gray.shape[::-1], None, None)
-np.savez('/home/luigy/analise_imagens/calibration/1/calib.npz', mtx=mtx, dist=dist, rvecs=rvecs, tvecs=tvecs)
+np.savez('1/calib.npz', mtx=mtx, dist=dist, rvecs=rvecs, tvecs=tvecs)
 
 # Print the camera calibration error
 error = 0
@@ -62,7 +65,7 @@ for i in range(len(objectPointsArray)):
 print("Total error: ", error / len(objectPointsArray))
 
 # Load one of the test images
-img = cv2.imread('/home/luigy/analise_imagens/calibration/1/right1.jpeg')
+img = cv2.imread('1/right1.jpeg')
 h, w = img.shape[:2]
 
 # Obtain the new camera matrix and undistort the image
@@ -74,6 +77,7 @@ undistortedImg = cv2.undistort(img, mtx, dist, None, newCameraMtx)
 # undistortedImg = undistortedImg[y:y + h, x:x + w]
 
 # Display the final result
-cv2.imshow('chess board', np.hstack((img, undistortedImg)))
+#cv2.imshow('Image', np.hstack((img, undistortedImg)))
+cv2.imshow('Image', np.hstack(( undistortedImg,img)))
 cv2.waitKey(0)
 cv2.destroyAllWindows()
