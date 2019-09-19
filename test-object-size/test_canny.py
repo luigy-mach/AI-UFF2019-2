@@ -19,8 +19,13 @@ img_path = "botao_colado/chanel_l.jpg"
 # Read image and preprocess
 image = cv2.imread(img_path)
 
+# Aplica os respectivos filtros
+kernel = np.ones((8,8),np.float32)/25
+filter2D = cv2.filter2D(image,-1,kernel)
+
+
    
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+gray = cv2.cvtColor(filter2D, cv2.COLOR_BGR2GRAY)
 #cv2.imshow("Image2", gray)
 #cv2.waitKey(0)
 

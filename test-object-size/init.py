@@ -6,8 +6,8 @@ import numpy as np
 import imutils
 import cv2
 
-cv2.namedWindow('Image2', cv2.WINDOW_NORMAL)
-cv2.resizeWindow('Image2', 640, 480)
+#cv2.namedWindow('Image2', cv2.WINDOW_NORMAL)
+#cv2.resizeWindow('Image2', 640, 480)
 
 # Function to show array of images (intermediate results)
 def show_images(images):
@@ -23,15 +23,28 @@ def show_images(images):
 
 #img_path = "fotos2/4.jpeg"
 #img_path = "botao_colado/6.jpg"
-img_path = "botao_colado/chanel_l.jpg"
+img_path = "botao_colado/2.jpg"
 
 
 # Read image and preprocess
 image = cv2.imread(img_path)
    
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+## Aplica os respectivos filtros
+#kernel = np.ones((9,9),np.float32)/15	
+#filter2D = cv2.filter2D(image,-1,kernel)
+#cv2.imwrite("image_test.png", filter2D)
+#gray = cv2.cvtColor(filter2D, cv2.COLOR_BGR2GRAY)
+
+ret,thresh1 = cv2.threshold(image,80,255,cv2.THRESH_BINARY)
+gray = cv2.cvtColor(thresh1, cv2.COLOR_BGR2GRAY)
+
+
+
+#gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 #cv2.imshow("Image2", gray)
 #cv2.waitKey(0)
+
+
 
 blur = cv2.GaussianBlur(gray, (9, 9), 0)
 #blur = cv2.GaussianBlur(gray, (11, 11), 0)
