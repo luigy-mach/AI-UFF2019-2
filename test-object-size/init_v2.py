@@ -19,7 +19,7 @@ def show_images(images):
 	cv2.destroyAllWindows()
 
 
-img_path = "botao_colado/2.jpg"
+img_path = "botao_colado/1.jpg"
 filename = os.path.split(img_path)
 #img_path = "fotos2/4.jpeg"
 #img_path = "botao_colado/6.jpg"
@@ -155,6 +155,8 @@ cv2.putText(image, "{:.1f}cm".format(dist_in_pixel2), (x_novo, y_novo),
 print(dist_in_pixel2)
 
 
-show_images([image])
 print(filename)
 cv2.imwrite("image_init_v2_"+filename[1], image)
+
+
+show_images([image])
