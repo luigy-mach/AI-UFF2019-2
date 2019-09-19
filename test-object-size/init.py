@@ -6,9 +6,12 @@ import numpy as np
 import imutils
 import cv2
 
+cv2.namedWindow('Image2', cv2.WINDOW_NORMAL)
+cv2.resizeWindow('Image2', 640, 480)
+
 # Function to show array of images (intermediate results)
 def show_images(images):
-	print(images)
+	#print(images)
 	for i, img in enumerate(images):
 		cv2.namedWindow('Image'+ str(i), cv2.WINDOW_NORMAL)
 		cv2.resizeWindow('Image'+ str(i), 640, 480)
@@ -17,28 +20,44 @@ def show_images(images):
 	cv2.destroyAllWindows()
 
 
+
 #img_path = "fotos2/4.jpeg"
-img_path = "botao_colado/1.jpg"
+img_path = "botao_colado/6.jpg"
 
 
 # Read image and preprocess
 image = cv2.imread(img_path)
-
+   
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-show_images(image)
-blur = cv2.GaussianBlur(gray, (9, 9), 0)
-show_images(blur)
+#cv2.imshow("Image2", gray)
+#cv2.waitKey(0)
 
-edged = cv2.Canny(blur, 50, 100)
+blur = cv2.GaussianBlur(gray, (9, 9), 0)
+#blur = cv2.GaussianBlur(gray, (11, 11), 0)
+#cv2.imshow("Image2", blur)
+#cv2.waitKey(0)
+
+
+edged = cv2.Canny(blur, 50, 150)
+#edged = cv2.Canny(blur, 60, 90)
+#cv2.imshow("Image2", edged)
+#cv2.waitKey(0)
+
 edged = cv2.dilate(edged, None, iterations=1)
+#cv2.imshow("Image2", edged)
+#cv2.waitKey(0)
+
 edged = cv2.erode(edged, None, iterations=1)
+#cv2.imshow("Image2", edged)
+#cv2.waitKey(0)
+
 
 #show_images([blur, edged])
 
 # Find contours
 cnts = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 cnts = imutils.grab_contours(cnts)
-
+print(cnts)
 # Sort contours from left to right as leftmost contour is reference object
 (cnts, _) = contours.sort_contours(cnts)
 
@@ -61,6 +80,8 @@ box = perspective.order_points(box)
 dist_in_pixel = euclidean(tl, tr)
 dist_in_cm = 2
 pixel_per_cm = dist_in_pixel/dist_in_cm
+
+
 
 # Draw remaining contours
 for cnt in cnts:
