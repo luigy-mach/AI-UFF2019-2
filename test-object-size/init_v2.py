@@ -102,7 +102,7 @@ for cnt in cnts:
 		# calculate x,y coordinate of center
 		cX = int(M["m10"] / M["m00"])
 		cY = int(M["m01"] / M["m00"])
-		centroide
+		centroide.append([cY,cY])
 		print(cX,cY)
 		print(area)
 		
@@ -123,7 +123,6 @@ for cnt in cnts:
 		cv2.putText(image, "{:.1f}cm".format(ht), (int(mid_pt_verticle[0] + 10), int(mid_pt_verticle[1])), 
 			cv2.FONT_HERSHEY_SIMPLEX, 5, (255, 255, 0), 2)
 
-
-cv2.line(image, (x1, y1), (x2, y2), (0,255,0), lineThickness)
-
+lineThickness = 2
+#cv2.line(image, (centroide[0][0], (centroide[0][1]), ((centroide[1][0], (centroide[1][1]), (0,255,0), lineThickness)
 show_images([image])
