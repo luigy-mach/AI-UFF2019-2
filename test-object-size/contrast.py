@@ -19,6 +19,8 @@ show_image("lab",lab)
 #-----Splitting the LAB image to different channels-------------------------
 l, a, b = cv2.split(lab)
 show_image('l_channel', l)
+cv2.imwrite('botao_colado/chanel_l.jpg',l) 
+
 show_image('a_channel', a)
 show_image('b_channel', b)
 
@@ -34,6 +36,7 @@ show_image('limg', limg)
 #-----Converting image from LAB Color model to RGB model--------------------
 final = cv2.cvtColor(limg, cv2.COLOR_LAB2BGR)
 show_image('final', final)
+cv2.imwrite('botao_colado/final.jpg',final) 
 
 
 cv2.waitKey(0)

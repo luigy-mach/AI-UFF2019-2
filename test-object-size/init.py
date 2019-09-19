@@ -22,7 +22,8 @@ def show_images(images):
 
 
 #img_path = "fotos2/4.jpeg"
-img_path = "botao_colado/6.jpg"
+#img_path = "botao_colado/6.jpg"
+img_path = "botao_colado/chanel_l.jpg"
 
 
 # Read image and preprocess
