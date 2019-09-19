@@ -5,6 +5,7 @@ from imutils import contours
 import numpy as np
 import imutils
 import cv2
+import os.path
 
 
 # Function to show array of images (intermediate results)
@@ -18,10 +19,10 @@ def show_images(images):
 	cv2.destroyAllWindows()
 
 
-
+img_path = "botao_colado/2.jpg"
+filename = os.path.split(img_path)
 #img_path = "fotos2/4.jpeg"
 #img_path = "botao_colado/6.jpg"
-img_path = "botao_colado/1.jpg"
 
 
 # Read image and preprocess
@@ -66,7 +67,7 @@ edged = cv2.erode(edged, None, iterations=1)
 # Find contours
 cnts = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 cnts = imutils.grab_contours(cnts)
-print(cnts)
+#print(cnts)
 # Sort contours from left to right as leftmost contour is reference object
 (cnts, _) = contours.sort_contours(cnts)
 
@@ -102,7 +103,7 @@ for cnt in cnts:
 		# calculate x,y coordinate of center
 		cX = int(M["m10"] / M["m00"])
 		cY = int(M["m01"] / M["m00"])
-		centroide.append([cY,cY])
+		centroide.append([cX,cY])
 		print(cX,cY)
 		print(area)
 		
@@ -123,6 +124,37 @@ for cnt in cnts:
 		cv2.putText(image, "{:.1f}cm".format(ht), (int(mid_pt_verticle[0] + 10), int(mid_pt_verticle[1])), 
 			cv2.FONT_HERSHEY_SIMPLEX, 5, (255, 255, 0), 2)
 
-lineThickness = 2
-#cv2.line(image, (centroide[0][0], (centroide[0][1]), ((centroide[1][0], (centroide[1][1]), (0,255,0), lineThickness)
+#print(centroide)
+#print(centroide[0][1])
+x0=centroide[1][0]
+y0=centroide[1][1]
+x1=centroide[2][0]
+y1=centroide[2][1]
+
+
+cor_line = (0, 255, 255)
+lineThickness = 5
+cv2.line(image, (x0, y0), (x1, y1), cor_line, lineThickness)
+#cv2.line(image, (centroide[1][0], centroide[1][1]), (centroide[2][0], centroide[2][1]), (0,255,0), lineThickness)
+#dist_in_pixel2 = euclidean(centroide[1][0], centroide[2][0])
+dist_in_pixel2 = euclidean(x0, x1)
+#dist_in_cm = 2
+dist_in_pixel2=dist_in_pixel2/pixel_per_cm
+
+#mid_pt_horizontal = (tl[0] + int(abs(tr[0] - tl[0])/2), tl[1] + int(abs(tr[1] - tl[1])/2))
+x_novo = int(abs(x0-x1)/2)+x0
+#mid_pt_verticle = (tr[0] + int(abs(tr[0] - br[0])/2), tr[1] + int(abs(tr[1] - br[1])/2))
+y_novo = int(abs(y0-y1)/2)+y0+100
+print(x_novo)
+print(y_novo)
+cv2.putText(image, "{:.1f}cm".format(dist_in_pixel2), (x_novo, y_novo), 
+			cv2.FONT_HERSHEY_SIMPLEX, 5, cor_line, 20)
+#cv2.putText(image, "{:.1f}cm".format(ht), (int(mid_pt_verticle[0] + 10), int(mid_pt_verticle[1])), 
+			#cv2.FONT_HERSHEY_SIMPLEX, 5, (255, 255, 0), 2)
+
+print(dist_in_pixel2)
+
+
 show_images([image])
+print(filename)
+cv2.imwrite("image_init_v2_"+filename[1], image)
