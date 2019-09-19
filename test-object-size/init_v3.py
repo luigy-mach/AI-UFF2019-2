@@ -29,7 +29,10 @@ image = cv2.imread(img_path)
 #gray = cv2.cvtColor(filter2D, cv2.COLOR_BGR2GRAY)
 
 ret,thresh1 = cv2.threshold(image,80,255,cv2.THRESH_BINARY)
+show_images([thresh1])
+
 gray = cv2.cvtColor(thresh1, cv2.COLOR_BGR2GRAY)
+cv2.imwrite("thresh1"+filename[1], gray)
 
 #gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 #cv2.imshow("Image2", gray)
@@ -38,20 +41,23 @@ gray = cv2.cvtColor(thresh1, cv2.COLOR_BGR2GRAY)
 blur = cv2.GaussianBlur(gray, (9, 9), 0)
 #blur = cv2.GaussianBlur(gray, (11, 11), 0)
 show_images([blur])
+cv2.imwrite("blur"+filename[1], blur)
 
 
 
 edged = cv2.Canny(blur, 50, 150)
 #edged = cv2.Canny(blur, 60, 90)
 show_images([edged])
+cv2.imwrite("edged1"+filename[1], edged)
 
 
 edged = cv2.dilate(edged, None, iterations=1)
 show_images([edged])
-
+cv2.imwrite("edged2"+filename[1], edged)
 
 edged = cv2.erode(edged, None, iterations=1)
 show_images([edged])
+
 
 # Find contours
 cnts = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -116,14 +122,16 @@ y1=centroide[2][1]
 cor_line = (0, 255, 255)
 lineThickness = 5
 cv2.line(image, (x0, y0), (x1, y1), cor_line, lineThickness)
-dist_in_pixel2 = euclidean(x0, x1)
+#dist_in_pixel2 = euclidean(x0, x1)
+dist_in_pixel2 = euclidean(centroide[1], centroide[2])
+
 dist_in_pixel2=dist_in_pixel2/pixel_per_cm
 
 x_novo = int(abs(x0-x1)/2)+x0
 y_novo = int(abs(y0-y1)/2)+y0+100
 print(x_novo)
 print(y_novo)
-cv2.putText(image, "{:.1f}cm".format(dist_in_pixel2), (x_novo, y_novo), 
+cv2.putText(image, "{:.3f}cm".format(dist_in_pixel2), (x_novo, y_novo), 
 			cv2.FONT_HERSHEY_SIMPLEX, 5, cor_line, 20)
 
 print(dist_in_pixel2)
