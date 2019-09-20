@@ -28,12 +28,13 @@ image = cv2.imread(img_path)
 #cv2.imwrite("image_test.png", filter2D)
 #gray = cv2.cvtColor(filter2D, cv2.COLOR_BGR2GRAY)
 
+#thresh1
 ret,thresh1 = cv2.threshold(image,80,255,cv2.THRESH_BINARY)
 show_images([thresh1])
 
 gray = cv2.cvtColor(thresh1, cv2.COLOR_BGR2GRAY)
 cv2.imwrite("thresh1"+filename[1], gray)
-
+show_images([gray])
 #gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 #cv2.imshow("Image2", gray)
 #cv2.waitKey(0)
@@ -53,10 +54,11 @@ cv2.imwrite("edged1"+filename[1], edged)
 
 edged = cv2.dilate(edged, None, iterations=1)
 show_images([edged])
-cv2.imwrite("edged2"+filename[1], edged)
+cv2.imwrite("dialte"+filename[1], edged)
 
 edged = cv2.erode(edged, None, iterations=1)
 show_images([edged])
+cv2.imwrite("edore"+filename[1], edged)
 
 
 # Find contours
