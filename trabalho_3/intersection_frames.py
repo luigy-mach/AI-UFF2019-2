@@ -31,6 +31,7 @@ def print_array_imgs(images,titles):
 
 
 def analisis_person(frame1,frame2,name_imgSave): 
+
 	img1 = cv2.imread(frame1)
 	img2 = cv2.imread(frame2)
 	test1 = img1.copy()
@@ -138,10 +139,10 @@ def analisis_person(frame1,frame2,name_imgSave):
 	# cv2.imshow("img1", img1)
 	# cv2.imshow("test1", test1)
 	cv2.imwrite(name_imgSave,test1)
-
+	print(name_imgSave + ", salvado")
 	# cv2.imshow("mg", mg)
-	cv2.waitKey(0)
-	cv2.destroyAllWindows()
+	# cv2.waitKey(0)
+	# cv2.destroyAllWindows()
 
 
 
@@ -154,14 +155,15 @@ def analisis_person(frame1,frame2,name_imgSave):
 # Main testing 
 if __name__ == "__main__":
 
-	base_name_in = '/home/luigy/analise_imagens/trabalho_3/in_frames/'
-	base_name_out = '/home/luigy/analise_imagens/trabalho_3/out_frames/'
+	base_name_in = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/in_frames/'
+	base_name_out = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/out_frames/'
 	image_paths = sorted(glob.glob(os.path.join(base_name_in,'*.jpg')))
-	image_paths = image_paths[:10]
+	# image_paths = image_paths[:10]
 	print(len(image_paths))
 
 	img1 = image_paths[0]
 	for img2 in image_paths[1:]:
 		_,file = os.path.split(img2)
-		save = base_name + file
+		save = base_name_out + file
 		analisis_person(img1,img2,save)
+		img1=img2
