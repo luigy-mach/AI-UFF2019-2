@@ -1,0 +1,21 @@
+referencias:
+
+tipos de contornos:
+https://subscription.packtpub.com/book/application_development/9781789344912/8/ch08lvl1sec90/more-functionality-related-to-contours
+https://opencvpython.blogspot.com/2012/06/contours-2-brotherhood.html
+
+computer vision for beginner:
+https://towardsdatascience.com/computer-vision-for-beginners-part-4-64a8d9856208
+
+
+laplacian:
+https://docs.opencv.org/2.4/doc/tutorials/imgproc/imgtrans/laplace_operator/laplace_operator.html
+
+dataset videos usados:
+https://www.robots.ox.ac.uk/ActiveVision/Research/Projects/2009bbenfold_headpose/project.html
+
+
+filtros:
+Canny Edge Detection and Gradients OpenCV Python Tutorial
+https://pythonprogramming.net/canny-edge-detection-gradients-python-opencv-tutorial/
+https://www.youtube.com/watch?v=xSzsD4kXhRw
