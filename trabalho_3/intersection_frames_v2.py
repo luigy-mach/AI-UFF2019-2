@@ -49,8 +49,13 @@ def analisis_person(frame1,frame2,name_imgSave):
 	# findContours = cv2.drawContours(img1, contours, -1, (0,225,0), 3)# util para encontrar contornos de objectos de un solo color
 
 
-	dilate1 = cv2.dilate(gray1, kernel, iterations=1)
-	dilate2 = cv2.dilate(gray2, kernel, iterations=1)
+	# erode1 = cv2.morphologyEx(gray1,cv2.MORPH_GRADIENT,kernel) #fusion entre erode y dilate
+	# erode2 = cv2.morphologyEx(gray2,cv2.MORPH_GRADIENT,kernel) #fusion entre erode y dilate
+	# erode1 = cv2.dilate(erode1, kernel, iterations=3)
+	# erode2 = cv2.dilate(erode2, kernel, iterations=3)
+
+	dilate1 = cv2.dilate(gray1, kernel, iterations=3)
+	dilate2 = cv2.dilate(gray2, kernel, iterations=3)
 
 	erode1 = cv2.erode(dilate1, kernel, iterations=2)
 	erode2 = cv2.erode(dilate2, kernel, iterations=2)
@@ -64,9 +69,11 @@ def analisis_person(frame1,frame2,name_imgSave):
 	img_bw_xor = cv2.bitwise_xor(erode1,erode2) # elegido
 	# edges = cv2.Canny(img_bw_xor,100,200)
 
+	# img_bw_xor = cv2.dilate(img_bw_xor, kernel, iterations=1)
 
 	# Find contours
-	cnts = cv2.findContours(img_bw_xor.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+	# cnts = cv2.findContours(img_bw_xor.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+	cnts = cv2.findContours(img_bw_xor.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_TC89_L1)
 	cnts = grab_contours(cnts)
 
 	# Sort contours from left to right as leftmost contour is reference object
@@ -89,7 +96,7 @@ def analisis_person(frame1,frame2,name_imgSave):
 		centroide[key]=[cX,cY]
 
 
-	ratio_max = 50
+	ratio_max = 100
 	ids=set(centroide.keys())
 
 	temp_centroides = centroide.copy()
@@ -155,9 +162,11 @@ def analisis_person(frame1,frame2,name_imgSave):
 if __name__ == "__main__":
 
 	base_name_in = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/in_frames/'
+	# base_name_out = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/out_frames/'
 	base_name_out = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/out_frames_sort/'
 	image_paths = sorted(glob.glob(os.path.join(base_name_in,'*.jpg')))
-	image_paths = image_paths[300:370]
+	# image_paths = image_paths[750:752]
+	image_paths = image_paths[750:850]
 	print(len(image_paths))
 
 	img1 = image_paths[0]
@@ -165,4 +174,4 @@ if __name__ == "__main__":
 		_,file = os.path.split(img2)
 		save = base_name_out + file
 		analisis_person(img1,img2,save)
-		img1=img2
+		img1=img2	

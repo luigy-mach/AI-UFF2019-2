@@ -2,7 +2,7 @@ import cv2
 import os
 
 image_folder =  '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/out_frames/'
-video_name = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/out_video/video.mp4'
+video_name = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/out_video/video_v2.mp4'
 
 
 images = [img for img in os.listdir(image_folder) if img.endswith(".jpg")]

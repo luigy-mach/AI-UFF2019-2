@@ -36,12 +36,28 @@ def analisis_person(frame1,frame2,name_imgSave):
 	img2 = cv2.imread(frame2)
 	test1 = img1.copy()
 	# ret,test1 = cv2.threshold(test1,80,255,cv2.THRESH_BINARY_INV)
-	_, bin1 = cv2.threshold(img1,80,255,cv2.THRESH_BINARY_INV)
-	_, bin2 = cv2.threshold(img2,80,255,cv2.THRESH_BINARY_INV)
+	# _, bin1 = cv2.threshold(img1,80,255,cv2.THRESH_BINARY)
+	# _, bin2 = cv2.threshold(img2,80,255,cv2.THRESH_BINARY)
 
+	img_yuv1 = cv2.cvtColor(img1, cv2.COLOR_BGR2YUV)
+	y1,u1,v1 = cv2.split(img_yuv1)
+	cv2.imwrite("/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/imgs_paper/img_yuv1.png",y1)
+	
+	img_yuv2 = cv2.cvtColor(img2, cv2.COLOR_BGR2YUV)
+	y2,u2,v2 = cv2.split(img_yuv2)
+	cv2.imwrite("/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/imgs_paper/img_yuv2.png",y2)
+	
 
-	gray1 = cv2.cvtColor(bin1, cv2.COLOR_BGR2GRAY)
-	gray2 = cv2.cvtColor(bin2, cv2.COLOR_BGR2GRAY)
+	# new1 = cv2.cvtColor(y1, cv2.COLOR_GRAY2BGR)
+	# new2 = cv2.cvtColor(y2, cv2.COLOR_GRAY2BGR)
+
+	# gray1 = cv2.cvtColor(new1, cv2.COLOR_BGR2GRAY)
+	# cv2.imwrite("/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/imgs_paper/gray1.png",gray1)
+	# gray2 = cv2.cvtColor(new2, cv2.COLOR_BGR2GRAY)
+	# cv2.imwrite("/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/imgs_paper/gray2.png",gray2)
+
+	# gray1 = cv2.cvtColor(bin1, cv2.COLOR_BGR2GRAY)
+	# gray2 = cv2.cvtColor(bin2, cv2.COLOR_BGR2GRAY)
 
 	kernel = np.ones((3,3), np.uint)
 
@@ -49,24 +65,42 @@ def analisis_person(frame1,frame2,name_imgSave):
 	# findContours = cv2.drawContours(img1, contours, -1, (0,225,0), 3)# util para encontrar contornos de objectos de un solo color
 
 
-	dilate1 = cv2.dilate(gray1, kernel, iterations=1)
-	dilate2 = cv2.dilate(gray2, kernel, iterations=1)
+	# erode1 = cv2.morphologyEx(gray1,cv2.MORPH_GRADIENT,kernel) #fusion entre erode y dilate
+	# erode2 = cv2.morphologyEx(gray2,cv2.MORPH_GRADIENT,kernel) #fusion entre erode y dilate
+	# erode1 = cv2.dilate(erode1, kernel, iterations=3)
+	# erode2 = cv2.dilate(erode2, kernel, iterations=3)
 
-	erode1 = cv2.erode(dilate1, kernel, iterations=2)
-	erode2 = cv2.erode(dilate2, kernel, iterations=2)
+
+	img_bw_xor = cv2.bitwise_xor(y1,y2) # elegido
+	cv2.imwrite("/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/imgs_paper/img_bw_XOR.png",img_bw_xor)
+
+
+	erode1 = cv2.erode(img_bw_xor, kernel, iterations=1)
+	dilate1 = cv2.dilate(erode1, kernel, iterations=2)
+	cv2.imwrite("/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/imgs_paper/dilate1.png",dilate1)
+	cv2.imwrite("/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/imgs_paper/erode1.png",erode1)
+
+
+	# erode1 = cv2.erode(dilate1, kernel, iterations=2)
+	# cv2.imwrite("/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/imgs_paper/erode1.png",erode1)
+	# dilate2 = cv2.dilate(img_bw_xor, kernel, iterations=3)
+	# cv2.imwrite("/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/imgs_paper/dilate2.png",dilate2)
 
 	# img1_laplacian = cv2.Laplacian(img1, cv2.CV_64F)
 	# img2_laplacian = cv2.Laplacian(img2, cv2.CV_64F)
 
 
-	# img_bwa = cv2.bitwise_and(img1,img2)
-	# # img_bwo = cv2.bitwise_or(img1,img2)
-	img_bw_xor = cv2.bitwise_xor(erode1,erode2) # elegido
-	# edges = cv2.Canny(img_bw_xor,100,200)
+	# # img_bwa = cv2.bitwise_and(img1,img2)
+	# # # img_bwo = cv2.bitwise_or(img1,img2)
+	# img_bw_xor = cv2.bitwise_xor(erode1,erode2) # elegido
+	# cv2.imwrite("/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/imgs_paper/img_bw_XOR.png",img_bw_xor)
+	# # edges = cv2.Canny(img_bw_xor,100,200)
 
+	# img_bw_xor = cv2.dilate(img_bw_xor, kernel, iterations=1)
 
 	# Find contours
-	cnts = cv2.findContours(img_bw_xor.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+	# cnts = cv2.findContours(img_bw_xor.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+	cnts = cv2.findContours(dilate1.copy(), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_TC89_KCOS)
 	cnts = grab_contours(cnts)
 
 	# Sort contours from left to right as leftmost contour is reference object
@@ -89,7 +123,7 @@ def analisis_person(frame1,frame2,name_imgSave):
 		centroide[key]=[cX,cY]
 
 
-	ratio_max = 50
+	ratio_max = 100
 	ids=set(centroide.keys())
 
 	temp_centroides = centroide.copy()
@@ -154,10 +188,17 @@ def analisis_person(frame1,frame2,name_imgSave):
 # Main testing 
 if __name__ == "__main__":
 
-	base_name_in = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/in_frames/'
-	base_name_out = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/out_frames_sort/'
+	# base_name_in = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/in_frames/'
+	base_name_in = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/new_split_video/'
+
+	# base_name_out = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/out_frames/'
+	# base_name_out = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/out_frames_sort/'
+	base_name_out = '/home/luigy/analise_imagens/AI-UFF2019-2/trabalho_3/imgs_paper/'
 	image_paths = sorted(glob.glob(os.path.join(base_name_in,'*.jpg')))
-	image_paths = image_paths[300:370]
+	# image_paths = image_paths[750:752]
+	# image_paths = image_paths[750:850]
+	image_paths = image_paths[:2]
+
 	print(len(image_paths))
 
 	img1 = image_paths[0]
@@ -165,4 +206,4 @@ if __name__ == "__main__":
 		_,file = os.path.split(img2)
 		save = base_name_out + file
 		analisis_person(img1,img2,save)
-		img1=img2
+		img1=img2	
